@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 
 class Comment extends Component {
+
   render() {
+    const { comment } = this.props;
     return (
-      <div>Comment</div>
+      <div className="comment">
+        <div className="comment-user">
+          <span>{comment.username}&nbsp;:&nbsp;</span> 
+        </div>
+        <p>{comment.content}</p>
+      </div>
     )
   }
 }
