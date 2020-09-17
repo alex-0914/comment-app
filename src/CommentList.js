@@ -5,8 +5,9 @@ class CommentList extends Component {
   // static defaultProps = {
   //   comments: []
   // }
-
   
+
+
   render() {
     return (
       <div>
