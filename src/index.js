@@ -2,31 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
-import CommentApp from './CommentApp';
-import * as serviceWorker from './serviceWorker';
+import CommentApp from './containers/CommentApp';
+import commentReducer from './reducers/comments';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
+const store = createStore(commentReducer);
 
 ReactDOM.render(
-  <CommentApp/>,
+  <Provider store={store}>
+    <CommentApp/>
+  </Provider>,
   document.getElementById("root")
 )
-/**
- * ReactDOM.render(
- *  React.createElement(Header, null),
- *  document.getElementById("root")
- * )
- * const header = new Header(props, children);
- * const headerJsxObject = header.render();
- * const headerDOM = createDOMFromObject(headerJsxObject);
- * document.getElementById("root").appendChildren(headerDOM);
- * 
- * 
- * constructor()
- * ComponentWillMount()
- * render()
- * append;
- * ComponentDidMount()
- */
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

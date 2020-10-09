@@ -4,36 +4,31 @@ import PropTypes from 'prop-types'
 class CommentInput extends Component {
 
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+    username: PropTypes.any,
+    onSubmit: PropTypes.func,
+    onUsernameInputBlur: PropTypes.func
   }
 
-  constructor() {
-    super()
+  static defaultProps = {
+    username: ''
+  }
+
+  constructor(props) {
+    super(props)
     this.state = {
-      username: '',
+      username: props.username, // get username from props
       content: '',
     }
   }
 
-  componentWillMount() {
-    this._loadUsername();
-  }
-
+  // autofocus textarea
   componentDidMount() {
     this.textarea.focus()
   }
 
-
-  _saveUsername(username) {
-    localStorage.setItem('username', username)
-  }
-
-  _loadUsername() {
-    let username = localStorage.getItem("username");
-    if(username) {
-      this.setState({
-        username
-      })
+  handleUsernameBlur(event) {
+    if (this.props.onUsernameInputBlur) {
+      this.props.onUsernameInputBlur(event.target.value)
     }
   }
 
@@ -43,20 +38,20 @@ class CommentInput extends Component {
     })
   }
 
-  handleUsernameBlur(event) {
-    this._saveUsername(event.target.value)
-  }
-
-  handleCommentChange(event) {
+  handleContentChange(event) {
     this.setState({
       content: event.target.value,
     })
   }
 
-  handleSubmit(event) {
+  handleSubmit() {
     if (this.props.onSubmit) {
       const { username, content } = this.state
-      this.props.onSubmit({ username, content })
+      this.props.onSubmit({ 
+        username, 
+        content,
+        createdTime: +new Date()
+      })
     }
     this.setState({
       content: '',
@@ -82,7 +77,7 @@ class CommentInput extends Component {
             <textarea
               ref={(textarea) => (this.textarea = textarea)}
               value={this.state.content}
-              onChange={this.handleCommentChange.bind(this)}
+              onChange={this.handleContentChange.bind(this)}
             />
           </div>
         </div>
@@ -93,5 +88,6 @@ class CommentInput extends Component {
     )
   }
 }
+
 
 export default CommentInput
